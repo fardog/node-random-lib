@@ -46,26 +46,24 @@ rand.randomFloats(options, function(err, results) {
 
 ### Functions
 
-#### randomInts([options], function(err, results) { … })
+#### rand.randomInts([options], function(err, results) { … })
 
 Get an array of random integers.
 
-#### randomInt([options], function(err, result))
+#### rand.randomInt([options], function(err, result))
 
 Convenience function to get a single random integer.
 
-#### randomFloats([options], function(err, results) { … })
+#### rand.randomFloats([options], function(err, results) { … })
 
 Get an array of random floats between 0 and 1.
 
-#### randomFloat([options], function(err, result) { … })
+#### rand.randomFloat([options], function(err, result) { … })
 
 Convenience function to get a single random float between 0 and 1.
 
 
 ## Environment Variables
-
-The random number generator that's internal to `xkcd-password` accepts two environment variables that affect its operation:
 
 - **RAND_ALLOW_PRNG**
 Set this environment variable to allow fallback to Node's `crypto.pseudoRandomBytes()` function if we fail to get entropy from `crypto.randomBytes()`. This decreases the quality of the random numbers, but will stop us from throwing an error.
