@@ -1,4 +1,4 @@
-# random-lib 0.1.0 [![Build Status](https://travis-ci.org/fardog/node-random-lib.svg)](https://travis-ci.org/fardog/node-random-lib)
+# random-lib 0.1.1 [![Build Status](https://travis-ci.org/fardog/node-random-lib.svg)](https://travis-ci.org/fardog/node-random-lib)
 
 Creates random floats and bounded integers from Node's `crypto.randomBytes()`.
 

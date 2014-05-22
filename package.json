@@ -1,6 +1,6 @@
 {
   "name": "random-lib",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A crypto.randomBytes wrapper for generating, ints, floats, and many of those at a time.",
   "main": "index.js",
   "scripts": {
@@ -33,8 +33,5 @@
 		"grunt-contrib-jshint": "^0.10.0",
 		"grunt-contrib-nodeunit": "^0.4.0",
 		"underscore": "^1.6.0"
-  },
-  "peerDependencies": {
-		"grunt": "^0.4.5"
   }
 }
