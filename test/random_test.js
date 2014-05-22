@@ -124,5 +124,39 @@ exports.randomlib = {
         test.done();
       });
     });
+  },
+  randomUniqueInts: function(test) {
+    test.expect(2);
+    
+    var rand = new randomlib();
+    
+    rand.randomUniqueInts({num: 10, min: 0, max: 9}, function(err, results) {
+      test.equal(10, results.length, 'should get 10 results');
+      var unique = _.uniq(results);
+      test.equal(10, unique.length, 'should have 10 unique results');
+      test.done();
+    });
+  },
+  tooManyRandomUniqueInts: function(test) {
+    test.expect(1);
+    
+    var rand = new randomlib();
+    
+    rand.randomUniqueInts({num: 10, min: 3, max: 9}, function(err, results) {
+      test.ok(err, 'should get an error message');
+      test.done();
+    });
+  },
+  randomUniqueFloats: function(test) {
+    test.expect(2);
+    
+    var rand = new randomlib();
+    
+    rand.randomUniqueFloats({num: 10, min: 0, max: 9}, function(err, results) {
+      test.equal(10, results.length, 'should get 10 results');
+      var unique = _.uniq(results);
+      test.equal(10, unique.length, 'should have 10 unique results');
+      test.done();
+    });
   }
 };

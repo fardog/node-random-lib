@@ -1,4 +1,4 @@
-# random-lib 0.1.1 [![Build Status](https://travis-ci.org/fardog/node-random-lib.svg)](https://travis-ci.org/fardog/node-random-lib)
+# random-lib 0.1.2 [![Build Status](https://travis-ci.org/fardog/node-random-lib.svg)](https://travis-ci.org/fardog/node-random-lib)
 
 Creates random floats and bounded integers from Node's `crypto.randomBytes()`.
 
@@ -46,19 +46,27 @@ rand.randomFloats(options, function(err, results) {
 
 ### Functions
 
-#### rand.randomInts([options], function(err, results) { … })
+#### randomInts([options], callback (err, results)) 
 
 Get an array of random integers.
 
-#### rand.randomInt([options], function(err, result))
+#### randomUniqueInts([options], callback (err, results))
+
+Get an array of random unique integers.
+
+#### randomInt([options], callback (err, results))
 
 Convenience function to get a single random integer.
 
-#### rand.randomFloats([options], function(err, results) { … })
+#### randomFloats([options], callback (err, results))
 
 Get an array of random floats between 0 and 1.
 
-#### rand.randomFloat([options], function(err, result) { … })
+#### randomUniqueFloats([options], callback (err, results))
+
+Get an array of random unique floats between 0 and 1.
+
+#### randomFloat([options], callback (err, results))
 
 Convenience function to get a single random float between 0 and 1.
 
@@ -79,6 +87,12 @@ Feel free to send pull requests! I'm not picky, but would like the following:
 2. Be sure to point out any changes that break API.
 
 ## History
+
+- **v0.1.2**
+Adds `randomUniqueInts` and `randomUniqueFloats` for arrays with unique numbers.
+
+- **v0.1.1**
+Remove peerDependencies.
 
 - **v0.1.0**
 Initial release.
