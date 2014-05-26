@@ -1,4 +1,4 @@
-# random-lib 0.1.2 [![Build Status](https://travis-ci.org/fardog/node-random-lib.svg)](https://travis-ci.org/fardog/node-random-lib)
+# random-lib 0.1.3 [![Build Status](https://travis-ci.org/fardog/node-random-lib.svg)](https://travis-ci.org/fardog/node-random-lib)
 
 Creates random floats and bounded integers from Node's `crypto.randomBytes()`.
 
@@ -88,13 +88,16 @@ Feel free to send pull requests! I'm not picky, but would like the following:
 
 ## History
 
-- **v0.1.2**
+- **v0.1.3**  
+Bug fixes.
+
+- **v0.1.2**  
 Adds `randomUniqueInts` and `randomUniqueFloats` for arrays with unique numbers.
 
-- **v0.1.1**
+- **v0.1.1**  
 Remove peerDependencies.
 
-- **v0.1.0**
+- **v0.1.0**  
 Initial release.
 
 ## The MIT License (MIT)
