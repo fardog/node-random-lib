@@ -1,4 +1,4 @@
-# random-lib 0.1.3 [![Build Status](https://travis-ci.org/fardog/node-random-lib.svg)](https://travis-ci.org/fardog/node-random-lib)
+# random-lib 0.1.4 [![Build Status](https://travis-ci.org/fardog/node-random-lib.svg)](https://travis-ci.org/fardog/node-random-lib)
 
 Creates random floats and bounded integers from Node's `crypto.randomBytes()`.
 
@@ -87,6 +87,9 @@ Feel free to send pull requests! I'm not picky, but would like the following:
 2. Be sure to point out any changes that break API.
 
 ## History
+
+- **v0.1.4**  
+Avoids [releasing Zalgo](http://blog.izs.me/post/59142742143/designing-apis-for-asynchrony) on errors.
 
 - **v0.1.3**  
 Bug fixes.
