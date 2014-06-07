@@ -88,6 +88,9 @@ Feel free to send pull requests! I'm not picky, but would like the following:
 
 ## History
 
+- **v0.1.4**  
+Avoids [releasing Zalgo](http://blog.izs.me/post/59142742143/designing-apis-for-asynchrony) on errors.
+
 - **v0.1.3**  
 Bug fixes.
 
