@@ -86,7 +86,7 @@ How many bytes of entropy we create in a single go. Internally, we create a buff
 
 ## Known Issues
 
-- Testling claims failure on a number of browsers when generating large quantities of numbers, but it doesn't fail consistently. This needs to be investigated further.
+- Testling claims failure on a number of browsers when generating large quantities of numbers, but it doesn't fail consistently. This needs to be investigated further, so browser support is experimental at the moment.
 
 ## Contributing
 
