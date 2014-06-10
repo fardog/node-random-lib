@@ -1,8 +1,13 @@
-# random-lib 0.1.4 [![Build Status](https://travis-ci.org/fardog/node-random-lib.svg)](https://travis-ci.org/fardog/node-random-lib)
+# random-lib 0.1.5 [![Build Status](https://travis-ci.org/fardog/node-random-lib.svg)](https://travis-ci.org/fardog/node-random-lib)
 
-Creates random floats and bounded integers from Node's `crypto.randomBytes()`.
+Creates random floats and bounded integers in the browser or in [Node.JS](http://nodejs.org).
 
 > **Warning:** I am not a cryptographer, or any sort of random number expert. An audit would be greatly appreciated.
+
+> **Note:** Browser support is currently experimental.
+
+[![browser support](https://ci.testling.com/fardog/node-random-lib.png)
+](https://ci.testling.com/fardog/node-random-lib)
 
 ## Installation
 
@@ -79,6 +84,10 @@ Set this environment variable to allow fallback to Node's `crypto.pseudoRandomBy
 - **RAND_BUFFER_SIZE**
 How many bytes of entropy we create in a single go. Internally, we create a buffer of entropy and then use it until it's exhausted, then refill the buffer. A small buffer exhausts more quickly, but generates faster and uses less memory. Default is 512 bytes. This value cannot be less than 256 bytes.
 
+## Known Issues
+
+- Testling claims failure on a number of browsers when generating large quantities of numbers, but it doesn't fail consistently. This needs to be investigated further.
+
 ## Contributing
 
 Feel free to send pull requests! I'm not picky, but would like the following:
@@ -87,6 +96,9 @@ Feel free to send pull requests! I'm not picky, but would like the following:
 2. Be sure to point out any changes that break API.
 
 ## History
+
+- **v0.1.5**  
+Tests browser support. Adds [testling](https://ci.testling.com/) for automated tests.
 
 - **v0.1.4**  
 Avoids [releasing Zalgo](http://blog.izs.me/post/59142742143/designing-apis-for-asynchrony) on errors.
