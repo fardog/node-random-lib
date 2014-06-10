@@ -1,8 +1,7 @@
 'use strict';
 
-var grunt = require('grunt');
 var _ = require('underscore');
-var randomlib = require('../lib');
+var randomlib = require('../../lib');
 var async = require('async');
 var path = require('path');
 

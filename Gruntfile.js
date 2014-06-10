@@ -26,13 +26,14 @@ module.exports = function(grunt) {
     },
 
     nodeunit: {
-      tests: ['test/*_test.js']
+      tests: ['test/node_host.js']
     }
   });
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
+  grunt.loadNpmTasks('grunt-testling');
 
   grunt.registerTask('test', ['nodeunit']);
-  grunt.registerTask('default', ['jshint', 'test']);
+  grunt.registerTask('default', ['jshint', 'test', 'testling']);
 };
