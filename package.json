@@ -27,7 +27,7 @@
   "homepage": "https://github.com/fardog/node-random-lib",
   "dependencies": {
     "async": "^0.9.0",
-    "debug": "^0.8.1",
+    "debug": "^1.0.4",
     "when": "^3.4.3"
   },
   "devDependencies": {
