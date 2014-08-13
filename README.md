@@ -1,19 +1,16 @@
-# random-lib 0.1.5 [![Build Status](https://travis-ci.org/fardog/node-random-lib.svg)](https://travis-ci.org/fardog/node-random-lib)
+# random-lib 1.0.0 [![Build Status](https://travis-ci.org/fardog/node-random-lib.svg)](https://travis-ci.org/fardog/node-random-lib)
 
-Creates random floats and bounded integers in the browser or in [Node.JS](http://nodejs.org).
+A library that wraps the [node.js](http://nodejs.org) crypto functions to create random floats and bounded integers with ease. Supports both a callback-based API and [Promises/A+](http://promisesaplus.com/).
 
 > **Warning:** I am not a cryptographer, or any sort of random number expert. An audit would be greatly appreciated.
 
-> **Note:** Browser support is currently experimental.
-
-[![browser support](https://ci.testling.com/fardog/node-random-lib.png)
-](https://ci.testling.com/fardog/node-random-lib)
+> **Note:** Browser support (using Browserify) is currently experimental.
 
 ## Installation
 
 To install the module for use in your projects:
 
-```
+```bash
 npm install random-lib
 ```
 
@@ -22,11 +19,23 @@ npm install random-lib
 ```js
 var randomLib = require('random-lib');
 var rand = new randomLib();
+
+// get 10 random integers
+rand.randomInts(function(err, results) {
+	console.log(results); // [ 1, 1, 8, 10, 1, 4, 1, 6, 0, 8 ]
+});
+
+// or, with promises
+rand.randomInts().then(function(results) {
+	console.log(results); // [ 2, 8, 4, 0, 2, 0, 7, 7, 8, 9 ]
+});
 ```
 
 Options are accepted, but are different if you're asking for floats or integers.
 
 ### Options
+
+Options are passed via an object; what's shown below are the defaults, and nothing is required.
 
 ```js
 
@@ -49,32 +58,37 @@ rand.randomFloats(options, function(err, results) {
 });
 ```
 
-### Functions
+### API
 
-#### randomInts([options], callback (err, results)) 
+#### randomInts([options], [callback (err, results)]) 
 
 Get an array of random integers.
 
-#### randomUniqueInts([options], callback (err, results))
+#### randomUniqueInts([options], [callback (err, results)])
 
 Get an array of random unique integers.
 
-#### randomInt([options], callback (err, results))
+#### randomInt([options], [callback (err, results)])
 
 Convenience function to get a single random integer.
 
-#### randomFloats([options], callback (err, results))
+#### randomFloats([options], [callback (err, results)])
 
 Get an array of random floats between 0 and 1.
 
-#### randomUniqueFloats([options], callback (err, results))
+#### randomUniqueFloats([options], [callback (err, results)])
 
 Get an array of random unique floats between 0 and 1.
 
-#### randomFloat([options], callback (err, results))
+#### randomFloat([options], [callback (err, results)])
 
 Convenience function to get a single random float between 0 and 1.
 
+
+#### Notes
+
+- The entropy buffer—what's returned from node's `crypto.randomBytes()`—is filled with entropy as soon as the constructor is called (on `new`).
+- Generation of new entropy will occur automatically whenever the buffer becomes empty.
 
 ## Environment Variables
 
@@ -86,7 +100,7 @@ How many bytes of entropy we create in a single go. Internally, we create a buff
 
 ## Known Issues
 
-- Testling claims failure on a number of browsers when generating large quantities of numbers, but it doesn't fail consistently. This needs to be investigated further, so browser support is experimental at the moment.
+- Browser support (using Browserify) is currently experimental. There is no timeframe for when this will be fully implemented.
 
 ## Contributing
 
@@ -96,6 +110,9 @@ Feel free to send pull requests! I'm not picky, but would like the following:
 2. Be sure to point out any changes that break API.
 
 ## History
+
+- **v1.0.0**  
+The API now supports Promises.
 
 - **v0.1.5**  
 Tests browser support. Adds [testling](https://ci.testling.com/) for automated tests.

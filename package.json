@@ -1,6 +1,6 @@
 {
   "name": "random-lib",
-  "version": "0.1.5",
+  "version": "1.0.0",
   "description": "A crypto.randomBytes wrapper for generating floats, bounded integers, and many of those at a time. Good for the browser, and for Node.JS.",
   "main": "index.js",
   "scripts": {
