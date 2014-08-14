@@ -124,6 +124,26 @@ exports.randomlib = {
       });
     });
   },
+  parallelGenerateCalls: function(test) {
+    var rand = new randomlib();
+    var randomInts = rand.randomInts.bind(rand);
+
+    var runTest = function(cb) {
+      randomInts({num: 100}, function(err, results) {
+        test.equal(100, results.length, 'should get 500 results');
+        cb(null, results);
+      });
+    }
+
+    var tests = [];
+    for (var i = 0; i < 50; i++) {
+      tests.push(runTest);
+    }
+
+    async.parallel(tests, function(err, result) {
+      test.done();
+    });
+  },
   randomUniqueInts: function(test) {
     test.expect(2);
     
@@ -278,6 +298,26 @@ exports.randomlib = {
         cb();
       });
     }], function(err) {
+      test.done();
+    });
+  },
+  promiseParallelGenerateCalls: function(test) {
+    var rand = new randomlib();
+    var randomInts = rand.randomInts.bind(rand);
+
+    var runTest = function(cb) {
+      randomInts({num: 100}).then(function(results) {
+        test.equal(100, results.length, 'should get 500 results');
+        cb(null, results);
+      });
+    }
+
+    var tests = [];
+    for (var i = 0; i < 50; i++) {
+      tests.push(runTest);
+    }
+
+    async.parallel(tests, function(err, result) {
       test.done();
     });
   },
