@@ -1,6 +1,6 @@
 {
   "name": "random-lib",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A crypto.randomBytes wrapper for generating floats, bounded integers, and many of those at a time. Supports both a callback-based API and Promises/A+.",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,7 @@
     "url": "git://github.com/fardog/node-random-lib.git"
   },
   "engines": {
-    "node": ">=0.10.22"
+    "node": ">=0.8.28"
   },
   "keywords": [
     "random",
@@ -26,19 +26,19 @@
   },
   "homepage": "https://github.com/fardog/node-random-lib",
   "dependencies": {
-    "async": "^0.9.0",
-    "debug": "^1.0.4",
-    "when": "^3.4.3"
+    "async": "~0.9.0",
+    "debug": "~1.0.4",
+    "when": "~3.4.3"
   },
   "devDependencies": {
-    "grunt": "^0.4.5",
-    "grunt-cli": "^0.1.13",
-    "grunt-contrib-jshint": "^0.10.0",
-    "grunt-contrib-nodeunit": "^0.4.0",
-    "grunt-testling": "^1.0.0",
-    "nodeunit-browser-tap": "0.0.4",
-    "testling": "^1.6.1",
-    "underscore": "^1.6.0"
+    "grunt": "~0.4.5",
+    "grunt-cli": "~0.1.13",
+    "grunt-contrib-jshint": "~0.10.0",
+    "grunt-contrib-nodeunit": "~0.4.0",
+    "grunt-testling": "~1.0.0",
+    "nodeunit-browser-tap": "~0.0.4",
+    "testling": "~1.6.1",
+    "underscore": "~1.6.0"
   },
   "testling": {
     "files": "test/browser_host.js",
