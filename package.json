@@ -1,6 +1,6 @@
 {
   "name": "random-lib",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A crypto.randomBytes wrapper for generating floats, bounded integers, and many of those at a time. Supports both a callback-based API and Promises/A+.",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,7 @@
     "url": "git://github.com/fardog/node-random-lib.git"
   },
   "engines": {
-    "node": ">=0.10.22"
+    "node": ">=0.8.28"
   },
   "keywords": [
     "random",
