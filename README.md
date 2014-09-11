@@ -1,4 +1,6 @@
-# random-lib 1.1.0 [![Build Status](https://travis-ci.org/fardog/node-random-lib.svg)](https://travis-ci.org/fardog/node-random-lib)
+# random-lib v1.1.2
+
+[![Build Status](https://travis-ci.org/fardog/node-random-lib.svg)](https://travis-ci.org/fardog/node-random-lib) [![Dependency Status](https://gemnasium.com/fardog/node-random-lib.svg)](https://gemnasium.com/fardog/node-random-lib)
 
 A library that wraps the [node.js](http://nodejs.org) crypto functions to create random floats and bounded integers with ease. Supports both a callback-based API and [Promises/A+](http://promisesaplus.com/).
 
@@ -110,6 +112,9 @@ Feel free to send pull requests! I'm not picky, but would like the following:
 2. Be sure to point out any changes that break API.
 
 ## History
+
+- **v1.1.2**  
+Updates dependencies and adds dependency badge.
 
 - **v1.1.0**  
 Only return Promises when callbacks aren't used.
