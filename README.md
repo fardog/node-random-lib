@@ -1,4 +1,4 @@
-# random-lib v1.1.2
+# random-lib v1.1.3
 
 [![Build Status](https://travis-ci.org/fardog/node-random-lib.svg)](https://travis-ci.org/fardog/node-random-lib) [![Dependency Status](https://gemnasium.com/fardog/node-random-lib.svg)](https://gemnasium.com/fardog/node-random-lib)
 
@@ -112,6 +112,9 @@ Feel free to send pull requests! I'm not picky, but would like the following:
 2. Be sure to point out any changes that break API.
 
 ## History
+
+- **v1.1.3**  
+Officially supports node 0.11.
 
 - **v1.1.2**  
 Updates dependencies and adds dependency badge.
