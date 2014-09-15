@@ -1,6 +1,6 @@
 {
   "name": "random-lib",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "A crypto.randomBytes wrapper for generating floats, bounded integers, and many of those at a time. Supports both a callback-based API and Promises/A+.",
   "main": "index.js",
   "scripts": {
@@ -28,7 +28,7 @@
   "dependencies": {
     "async": "^0.9.0",
     "debug": "^2.0.0",
-    "when": "^3.4.3"
+    "when": "^3.4.6"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
