@@ -288,12 +288,12 @@ exports.randomlib = {
     var rand = new randomlib();
 
     async.series([function(cb) {
-      rand.randomInts({num: 500}, function(err, results) {
+      rand.randomInts({num: 500}).then(function(results) {
         test.equal(500, results.length, 'should get 500 results');
         cb();
       });
     }, function(cb) {
-      rand.randomInts({num: 1000}, function(err, results) {
+      rand.randomInts({num: 1000}).then(function(results) {
         test.equal(1000, results.length, 'should get 1000 results');
         cb();
       });
@@ -307,7 +307,7 @@ exports.randomlib = {
 
     var runTest = function(cb) {
       randomInts({num: 100}).then(function(results) {
-        test.equal(100, results.length, 'should get 500 results');
+        test.equal(100, results.length, 'should get 100 results');
         cb(null, results);
       });
     }
