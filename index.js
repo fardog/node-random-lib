@@ -236,6 +236,8 @@ function numItemsFromAsyncFn (fn, opts, ready) {
       return ready(null, values)
     }
 
-    process.nextTick(fn, opts, onValue)
+    process.nextTick(function () {
+      fn(opts, onValue)
+    })
   }
 }
