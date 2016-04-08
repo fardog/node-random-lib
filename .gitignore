@@ -23,3 +23,5 @@ config.json
 bower_components
 www
 /datasets/
+
+.idea
