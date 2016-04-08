@@ -1,6 +1,6 @@
 # random-lib
 
-[![Build Status](http://img.shields.io/travis/fardog/random-lib/master.svg?style=flat-square)](https://travis-ci.org/fardog/random-lib)
+[![Build Status](http://img.shields.io/travis/fardog/node-random-lib/master.svg?style=flat-square)](https://travis-ci.org/fardog/node-random-lib)
 [![npm install](http://img.shields.io/npm/dm/random-lib.svg?style=flat-square)](https://www.npmjs.org/package/random-lib)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/feross/standard)
 
