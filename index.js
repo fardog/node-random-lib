@@ -109,6 +109,13 @@ function randomIntsSync (opts) {
   return arrayItemsFromFn(opts.num, randomIntSync, opts)
 }
 
+/**
+ * Creates promisified versions of all random-lib public methods.
+ *
+ * @param {Promise} [_Promise] a promise constructor to be used. defaults to
+ *   es6-promise in the event that one is not given.
+ * @returns {Object} promisified random-lib public methods
+ */
 function promise (_Promise) {
   var methods = ['randomInt', 'randomInts', 'randomFloat', 'randomFloats']
   var promisified = {}
@@ -142,6 +149,13 @@ function promise (_Promise) {
   }
 }
 
+/**
+ * Given a buffer containing bytes of entropy, generate a double-precision
+ * 64-bit float.
+ *
+ * @param {Buffer} buf a buffer of bytes
+ * @returns {Number} a float
+ */
 function floatFromBuffer (buf) {
   if (buf.length < FLOAT_ENTROPY_BYTES) {
     throw new Error(
@@ -161,10 +175,26 @@ function floatFromBuffer (buf) {
     buf[position]) / 256
 }
 
+/**
+ * Create in integer from a float, bounded between min and max
+ * @param {Number} num a float
+ * @param {Number} min the lower bound (inclusive)
+ * @param {Number} max the upper bound (exclusive)
+ * @returns {Number} an integer
+ */
 function intFromFloat (num, min, max) {
   return min + Math.floor(num * (max - min))
 }
 
+/**
+ * Create an array of items, whose contents are the result of calling function
+ *   fn once for each item in the array.
+ *
+ * @param {Number} num the size of the array to generate
+ * @param {Function} fn the function to call on each
+ * @param {*} args... a list of args to pass to the function fn
+ * @returns {Array} the filled array
+ */
 function arrayItemsFromFn () {
   var args = Array.prototype.slice.call(arguments)
   var num = args.shift()
@@ -179,6 +209,15 @@ function arrayItemsFromFn () {
   return arr
 }
 
+/**
+ * Creates an array of items, whose contents are the result of calling
+ *   asynchronous function fn once for each item in the array. The function is
+ *   called in series, until the array is filled.
+ *
+ * @param {Function} fn the function to be called
+ * @param {Object} opts the options hash that random-lib expects
+ * @param {Function} ready the function to be called with (err, {Array} values)
+ */
 function numItemsFromAsyncFn (fn, opts, ready) {
   var values = []
 
