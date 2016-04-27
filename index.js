@@ -117,14 +117,9 @@ function randomIntsSync (opts) {
  * @returns {Object} promisified random-lib public methods
  */
 function promise (_Promise) {
+  var Promise = _Promise || require('es6-promise').Promise
   var methods = ['randomInt', 'randomInts', 'randomFloat', 'randomFloats']
   var promisified = {}
-
-  var Promise
-
-  if (!_Promise) {
-    Promise = require('es6-promise').Promise
-  }
 
   methods.forEach(function (method) {
     promisified[method] = promisify(module.exports[method])
