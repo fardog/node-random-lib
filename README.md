@@ -133,6 +133,9 @@ Feel free to send pull requests! I'm not picky, but would like the following:
 
 ## History
 
+- **v2.1.0**  
+Fix passing your own Promise constructor; this was broken in 2.0.x
+
 - **v2.0.0**  
 Rewrite: new API, adds synchronous functions. Tests on Node.js 4 and 5, removes
 testling.
