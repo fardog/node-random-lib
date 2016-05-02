@@ -1,4 +1,5 @@
 var test = require('tape')
+var Promise = require('es6-promise').Promise
 
 var lib = require('./')
 var promisified = lib.promise()
@@ -293,4 +294,20 @@ test('expected promisified methods', function (t) {
   })
 
   t.end()
+})
+
+test('can provide own promise implementation', function (t) {
+  t.plan(2)
+
+  var withTestPromise = lib.promise(TestPromise)
+
+  withTestPromise.randomInt().then(function (result) {
+    t.ok(typeof result === 'number', 'should be a number')
+  })
+
+  function TestPromise (fn) {
+    t.pass('used test promise')
+
+    return new Promise(fn)
+  }
 })
