@@ -108,7 +108,7 @@ rand.randomInts().then(function (results) { console.log(results) })
 ```
 
 When calling `promise()`, you may pass your own Promise constructor; if you do
-not [es6-promise][] will be used.
+not the Node.js implementation will be used.
 
 ```javascript
 var Promise = require('bluebird')
@@ -132,6 +132,13 @@ Feel free to send pull requests! I'm not picky, but would like the following:
    in an issue first.
 
 ## History
+
+- **v3.0.0**  
+Removes support for Node.js versions older than 4. Use [rejection-sampled-int][]
+to generate unbiased integers, replacing the old, biased algorithm. **Note:**
+the unbiased algorithm is much slower than the older, biased version. If you
+were using this function in a performance-critical area of code, be sure to test
+thoroughly with the new version.
 
 - **v2.1.0**  
 Fix passing your own Promise constructor; this was broken in 2.0.x
@@ -183,4 +190,4 @@ MIT. See [LICENSE][] for details.
 [LICENSE]: ./LICENSE
 [testling]: https://ci.testling.com/
 [Node.js]: http://nodejs.org
-[es6-promise]: https://www.npmjs.com/package/es6-promise
+[rejection-sampled-int]: https://github.com/fardog/rejection-sampled-int

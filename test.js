@@ -1,5 +1,4 @@
 var test = require('tape')
-var Promise = require('es6-promise').Promise
 
 var lib = require('./')
 var promisified = lib.promise()

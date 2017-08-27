@@ -1,7 +1,7 @@
 var crypto = require('crypto')
 
 var dz = require('dezalgo')
-var objectAssign = require('object-assign')
+var rejectionSampledInt = require('rejection-sampled-int')
 
 var MAX_SAFE_INT = Math.pow(2, 53) - 1
 var FLOAT_ENTROPY_BYTES = 7
@@ -46,7 +46,7 @@ function _wrap (fn, sync) {
       _opts = {}
     }
 
-    var opts = objectAssign({}, DEFAULT_OPTS, _opts)
+    var opts = Object.assign({}, DEFAULT_OPTS, _opts)
 
     // if we don't have a ready, perform action synchronously
     if (!ready) {
@@ -72,13 +72,7 @@ function randomFloat (opts, ready) {
 }
 
 function randomInt (opts, ready) {
-  crypto.randomBytes(FLOAT_ENTROPY_BYTES, function (err, buf) {
-    if (err) {
-      return ready(err)
-    }
-
-    ready(null, intFromFloat(floatFromBuffer(buf), opts.min, opts.max))
-  })
+  rejectionSampledInt(opts, ready)
 }
 
 function randomFloats (opts, ready) {
@@ -90,15 +84,15 @@ function randomInts (opts, ready) {
     return ready(new Error('Not enough ints between min and max to be unique.'))
   }
 
-  numItemsFromAsyncFn(randomInt, opts, ready)
+  numItemsFromAsyncFn(rejectionSampledInt, opts, ready)
 }
 
 function randomFloatSync () {
   return floatFromBuffer(crypto.randomBytes(FLOAT_ENTROPY_BYTES))
 }
 
-function randomIntSync (opts) {
-  return intFromFloat(randomFloatSync(opts), opts.min, opts.max)
+function randomIntSync (opts, ready) {
+  return rejectionSampledInt.sync(opts)
 }
 
 function randomFloatsSync (opts) {
@@ -106,18 +100,18 @@ function randomFloatsSync (opts) {
 }
 
 function randomIntsSync (opts) {
-  return arrayItemsFromFn(opts.num, randomIntSync, opts)
+  return arrayItemsFromFn(opts.num, rejectionSampledInt.sync, opts)
 }
 
 /**
  * Creates promisified versions of all random-lib public methods.
  *
  * @param {Promise} [_Promise] a promise constructor to be used. defaults to
- *   es6-promise in the event that one is not given.
+ *   Node.js promise implementation in the event that one is not given.
  * @returns {Object} promisified random-lib public methods
  */
 function promise (_Promise) {
-  var Promise = _Promise || require('es6-promise').Promise
+  var PromiseImpl = _Promise || Promise
   var methods = ['randomInt', 'randomInts', 'randomFloat', 'randomFloats']
   var promisified = {}
 
@@ -131,7 +125,7 @@ function promise (_Promise) {
     return promisifiedMethod
 
     function promisifiedMethod (opts) {
-      return new Promise(function (resolve, reject) {
+      return new PromiseImpl(function (resolve, reject) {
         fn(opts, function (err, result) {
           if (err) {
             return reject(err)
@@ -168,17 +162,6 @@ function floatFromBuffer (buf) {
     buf[position++]) / 256 +
     buf[position++]) / 256 +
     buf[position]) / 256
-}
-
-/**
- * Create in integer from a float, bounded between min and max
- * @param {Number} num a float
- * @param {Number} min the lower bound (inclusive)
- * @param {Number} max the upper bound (exclusive)
- * @returns {Number} an integer
- */
-function intFromFloat (num, min, max) {
-  return min + Math.floor(num * (max - min))
 }
 
 /**

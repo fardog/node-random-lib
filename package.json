@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "tape test.js && npm run lint",
-    "lint": "standard *.js"
+    "lint": "standard **/*.js"
   },
   "repository": {
     "type": "git",
@@ -25,11 +25,10 @@
   "homepage": "https://github.com/fardog/node-random-lib",
   "dependencies": {
     "dezalgo": "^1.0.3",
-    "object-assign": "^4.0.1",
-    "es6-promise": "^3.1.2"
+    "rejection-sampled-int": "^0.2.0"
   },
   "devDependencies": {
-    "standard": "^6.0.8",
-    "tape": "^4.5.1"
+    "standard": "^10.0.3",
+    "tape": "^4.8.0"
   }
 }
