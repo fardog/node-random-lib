@@ -61,6 +61,7 @@ to test thoroughly with the new version.
 [0.1.4]: https://github.com/urbanairship/node-random-lib/compare/v0.1.3...v0.1.4
 [0.1.5]: https://github.com/urbanairship/node-random-lib/compare/v0.1.4...v0.1.5
 [1.0.0]: https://github.com/urbanairship/node-random-lib/compare/v0.1.5...v1.0.0
+[1.0.1]: https://github.com/urbanairship/node-random-lib/compare/v1.0.0...v1.0.1
 [1.1.0]: https://github.com/urbanairship/node-random-lib/compare/v1.0.0...v1.1.0
 [1.1.2]: https://github.com/urbanairship/node-random-lib/compare/v1.1.0...v1.1.2
 [1.1.3]: https://github.com/urbanairship/node-random-lib/compare/v1.1.2...v1.1.3
