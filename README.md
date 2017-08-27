@@ -59,7 +59,7 @@ var options = {
   max: Number.MAX_SAFE_INT,  // maximum bound (exclusive),
   unique: false  // receive only unique ints; only supported when async
 }
-rand.randomInts(options, function(err, results) {
+rand.ints(options, function(err, results) {
   console.log(results)
 })
 
@@ -68,7 +68,7 @@ var options = {
   num: 10,  // number of floats to receive
   unique: false  // receive only unique floats; only supported when async
 }
-rand.randomFloats(options, function(err, results) {
+rand.floats(options, function(err, results) {
   console.log(results)
 })
 ```
@@ -99,7 +99,7 @@ Synchronous methods take the same options as their async counterparts. The
 
 ## Notes
 
-- Using the synchronous interface calls [crypto.randomBytes][] synchronously;
+* Using the synchronous interface calls [crypto.randomBytes][] synchronously;
   please be sure to read the documentation for your Node.js version to
   understand the performance implications.
 
@@ -115,61 +115,13 @@ Feel free to send pull requests! I'm not picky, but would like the following:
 
 ## History
 
-- **v3.0.0**  
-Removes support for Node.js versions older than 4. Use [rejection-sampled-int][]
-to generate unbiased integers, replacing the old, biased algorithm. **Note:**
-the unbiased algorithm is much slower than the older, biased version. If you
-were using this function in a performance-critical area of code, be sure to test
-thoroughly with the new version.
-
-- **v2.1.0**  
-Fix passing your own Promise constructor; this was broken in 2.0.x
-
-- **v2.0.0**  
-Rewrite: new API, adds synchronous functions. Tests on Node.js 4 and 5, removes
-testling.
-
-- **v1.1.3**  
-Officially supports node 0.11.
-
-- **v1.1.2**  
-Updates dependencies and adds dependency badge.
-
-- **v1.1.0**  
-Only return Promises when callbacks aren't used.
-
-- **v1.0.1**  
-Anonymous functions are now named, internal documentation updates, new tests,
-and updated dependencies.
-
-- **v1.0.0**  
-The API now supports Promises.
-
-- **v0.1.5**  
-Tests browser support. Adds [testling][] for automated tests.
-
-- **v0.1.4**  
-Avoids [releasing Zalgo][zalgo] on errors.
-
-- **v0.1.3**  
-Bug fixes.
-
-- **v0.1.2**  
-Adds `randomUniqueInts` and `randomUniqueFloats` for arrays with unique numbers.
-
-- **v0.1.1**  
-Remove peerDependencies.
-
-- **v0.1.0**  
-Initial release.
+See [CHANGELOG][] for details.
 
 ## License
 
 MIT. See [LICENSE][] for details.
 
-[crypto.randomBytes]: https://nodejs.org/dist/latest-v5.x/docs/api/crypto.html#crypto_crypto_randombytes_size_callback
-[zalgo]: http://blog.izs.me/post/59142742143/designing-apis-for-asynchrony
+[crypto.randomBytes]: https://nodejs.org/dist/latest-v6.x/docs/api/crypto.html#crypto_crypto_randombytes_size_callback
+[CHANGELOG]: ./CHANGELOG.md
 [LICENSE]: ./LICENSE
-[testling]: https://ci.testling.com/
 [Node.js]: http://nodejs.org
-[rejection-sampled-int]: https://github.com/fardog/rejection-sampled-int
