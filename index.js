@@ -7,11 +7,14 @@ var MAX_SAFE_INT = Math.pow(2, 53) - 1
 var FLOAT_ENTROPY_BYTES = 7
 
 module.exports = {
-  randomFloat: _wrap(randomFloat, randomFloatSync),
-  randomInt: _wrap(randomInt, randomIntSync),
-  randomFloats: _wrap(randomFloats, randomFloatsSync),
-  randomInts: _wrap(randomInts, randomIntsSync),
-  promise: promise,
+  float: _wrap(float),
+  floatSync: _wrapsync(floatSync),
+  int: _wrap(int),
+  intSync: _wrapsync(intSync),
+  floats: _wrap(floats),
+  floatsSync: _wrapsync(floatsSync),
+  ints: _wrap(ints),
+  intsSync: _wrapsync(intsSync),
   _maxSafeInt: MAX_SAFE_INT
 }
 
@@ -21,47 +24,65 @@ var DEFAULT_OPTS = {
   num: 10
 }
 
-/**
- * Creates a random* function that can work async or sync depending on the
- * parameters passed to it.
- *
- * @param fn the async function to be called
- * @param sync the sync function to be called
- * @returns {Function}
- * @private
- */
-function _wrap (fn, sync) {
-  return wrapper
+function _assignDefaults (_opts, sync) {
+  var opts = Object.assign({}, DEFAULT_OPTS, _opts)
 
-  /**
-   * Random wrapper function.
-   * @param {Object} [_opts] options object; if not provided, defaults are used
-   * @param {Function} [ready] ready function; if not provided, the operation
-   *   is performed synchronously.
-   * @returns {*}
-   */
-  function wrapper (_opts, ready) {
+  if (sync && opts.unique) {
+    throw new Error('cannot ask for unique values when async')
+  }
+
+  return opts
+}
+
+function _wrap (fn) {
+  return wrapped
+
+  function wrapped (_opts, _ready) {
     if (typeof _opts === 'function') {
-      ready = _opts
+      _ready = _opts
       _opts = {}
     }
-
-    var opts = Object.assign({}, DEFAULT_OPTS, _opts)
-
-    // if we don't have a ready, perform action synchronously
-    if (!ready) {
-      if (opts.unique) {
-        throw new Error('Cannot generate unique values synchronously.')
-      }
-
-      return sync(opts)
+    if (!_ready) {
+      return new Promise(begin)
     }
 
-    return fn(opts, dz(ready))
+    var ready = dz(_ready)
+    var opts
+
+    try {
+      opts = _assignDefaults(_opts)
+    } catch (e) {
+      return ready(e)
+    }
+
+    fn(opts, ready)
+
+    function begin (resolve, reject) {
+      try {
+        opts = _assignDefaults(_opts)
+      } catch (e) {
+        return reject(e)
+      }
+
+      fn(opts, (err, result) => {
+        if (err) return reject(err)
+        resolve(result)
+      })
+    }
   }
 }
 
-function randomFloat (opts, ready) {
+function _wrapsync (fn) {
+  return wrapped
+
+  function wrapped (_opts) {
+    var opts = _assignDefaults(_opts, true)
+
+    return fn(opts)
+  }
+}
+
+function float (opts, ready) {
   crypto.randomBytes(FLOAT_ENTROPY_BYTES, function (err, buf) {
     if (err) {
       return ready(err)
@@ -71,15 +92,19 @@ function randomFloat (opts, ready) {
   })
 }
 
-function randomInt (opts, ready) {
-  rejectionSampledInt(opts, ready)
+function int (opts, ready) {
+  rejectionSampledInt(opts, (err, int) => {
+    if (err) return ready(err)
+
+    ready(null, int)
+  })
 }
 
-function randomFloats (opts, ready) {
-  numItemsFromAsyncFn(randomFloat, opts, ready)
+function floats (opts, ready) {
+  numItemsFromAsyncFn(float, opts, ready)
 }
 
-function randomInts (opts, ready) {
+function ints (opts, ready) {
   if (opts.unique && opts.max - opts.min < opts.num) {
     return ready(new Error('Not enough ints between min and max to be unique.'))
   }
@@ -87,55 +112,20 @@ function randomInts (opts, ready) {
   numItemsFromAsyncFn(rejectionSampledInt, opts, ready)
 }
 
-function randomFloatSync () {
+function floatSync () {
   return floatFromBuffer(crypto.randomBytes(FLOAT_ENTROPY_BYTES))
 }
 
-function randomIntSync (opts, ready) {
+function intSync (opts) {
   return rejectionSampledInt.sync(opts)
 }
 
-function randomFloatsSync (opts) {
-  return arrayItemsFromFn(opts.num, randomFloatSync, opts)
+function floatsSync (opts) {
+  return arrayItemsFromFn(opts.num, floatSync, opts)
 }
 
-function randomIntsSync (opts) {
+function intsSync (opts) {
   return arrayItemsFromFn(opts.num, rejectionSampledInt.sync, opts)
-}
-
-/**
- * Creates promisified versions of all random-lib public methods.
- *
- * @param {Promise} [_Promise] a promise constructor to be used. defaults to
- *   Node.js promise implementation in the event that one is not given.
- * @returns {Object} promisified random-lib public methods
- */
-function promise (_Promise) {
-  var PromiseImpl = _Promise || Promise
-  var methods = ['randomInt', 'randomInts', 'randomFloat', 'randomFloats']
-  var promisified = {}
-
-  methods.forEach(function (method) {
-    promisified[method] = promisify(module.exports[method])
-  })
-
-  return promisified
-
-  function promisify (fn) {
-    return promisifiedMethod
-
-    function promisifiedMethod (opts) {
-      return new PromiseImpl(function (resolve, reject) {
-        fn(opts, function (err, result) {
-          if (err) {
-            return reject(err)
-          }
-
-          resolve(result)
-        })
-      })
-    }
-  }
 }
 
 /**

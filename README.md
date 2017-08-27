@@ -29,18 +29,16 @@ var opts = {
 }
 
 // get 10 random integers, between 1 and 10
-rand.randomInts(opts, function(err, results) {
+rand.ints(opts, function(err, results) {
   console.log(results) // [ 1, 1, 8, 9, 1, 4, 1, 6, 3, 8 ]
 })
 
 // or synchronously
-var results = rand.randomInts(opts)
+var results = rand.ints(opts)
 console.log(results) // [ 2, 1, 3, 8, 9, 7, 2, 4, 4, 7 ]
 
 // or, with promises
-var promisified = rand.promise()
-
-promisified.randomInts(opts).then(function(results) {
+rand.ints(opts).then(function(results) {
   console.log(results) // [ 2, 8, 4, 5, 2, 1, 7, 7, 8, 9 ]
 })
 ```
@@ -58,7 +56,7 @@ and nothing is required.
 var options = {
   num: 10,  // number of ints to receive
   min: 0,  // minimum bound (inclusive)
-  max: Math.pow(2, 53) - 1,  // maximum bound (exclusive),
+  max: Number.MAX_SAFE_INT,  // maximum bound (exclusive),
   unique: false  // receive only unique ints; only supported when async
 }
 rand.randomInts(options, function(err, results) {
@@ -78,42 +76,26 @@ rand.randomFloats(options, function(err, results) {
 ### API
 
 When calling any function, omitting a callback will cause the function to
-return results synchronously. Asking for unique results is not supported when
-synchronous.
+return a Promise.
 
-#### randomInts([options], [callback (err, results)]) -> Array{Number}
+* `ints([options], [callback (err, results)]) => number[]`  
+  Get an array of random integers.
+* `int([options], [callback (err, result)]) => number`  
+  Convenience function to get a single random integer.
+* `floats([options], [callback (err, results)]) => number[]`  
+  Get an array of random floats between 0 and 1.
+* `float([options], [callback (err, results)]) => number`  
+  Convenience function to get a single random float between 0 and 1.
 
-Get an array of random integers.
+#### Synchronous Methods
 
-#### randomInt([options], [callback (err, result)]) -> Number
+Synchronous methods take the same options as their async counterparts. The
+`unique` option is not supported while synchronous.
 
-Convenience function to get a single random integer.
-
-#### randomFloats([options], [callback (err, results)]) -> Array{Number}
-
-Get an array of random floats between 0 and 1.
-
-#### randomFloat([options], [callback (err, results)]) -> Number
-
-Convenience function to get a single random float between 0 and 1.
-
-#### promise([Promise]) -> Object
-
-A promise API is supported for all functions:
-
-```javascript
-var rand = require('random-lib').promise()
-
-rand.randomInts().then(function (results) { console.log(results) })
-```
-
-When calling `promise()`, you may pass your own Promise constructor; if you do
-not the Node.js implementation will be used.
-
-```javascript
-var Promise = require('bluebird')
-var rand = require('random-lib').promise(Promise)  // now using bluebird
-```
+* `intsSync([options]): number[]`
+* `intSync([options]): number`
+* `floatsSync([options]): number[]`
+* `floatSync([options]): number`
 
 ## Notes
 

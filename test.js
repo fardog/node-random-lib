@@ -1,7 +1,6 @@
 var test = require('tape')
 
 var lib = require('./')
-var promisified = lib.promise()
 
 test('can generate random bounded int', function (t) {
   var options = {
@@ -9,7 +8,7 @@ test('can generate random bounded int', function (t) {
     max: 10
   }
 
-  lib.randomInt(options, function (err, result) {
+  lib.int(options, function (err, result) {
     if (err) {
       return t.fail(err)
     }
@@ -29,7 +28,7 @@ test('sync: can generate random bounded int', function (t) {
     max: 10
   }
 
-  var result = lib.randomInt(options)
+  var result = lib.intSync(options)
 
   t.ok(result, 'should get a result')
   t.ok(typeof result === 'number', 'should be a number')
@@ -46,7 +45,7 @@ test('can generate many random bounded ints', function (t) {
     max: 2000
   }
 
-  lib.randomInts(options, function (err, results) {
+  lib.ints(options, function (err, results) {
     if (err) {
       return t.fail(err)
     }
@@ -67,7 +66,7 @@ test('sync: can generate many random bounded ints', function (t) {
     max: 2000
   }
 
-  var results = lib.randomInts(options)
+  var results = lib.intsSync(options)
 
   t.ok(Array.isArray(results), 'should get an array of results')
   t.equal(results.length, 1000, 'should get 1000 results')
@@ -78,7 +77,7 @@ test('sync: can generate many random bounded ints', function (t) {
 })
 
 test('can generate ints with the defaults', function (t) {
-  lib.randomInts(function (err, results) {
+  lib.ints(function (err, results) {
     if (err) {
       return t.fail(err)
     }
@@ -92,7 +91,7 @@ test('can generate ints with the defaults', function (t) {
 })
 
 test('sync: can generate ints with the defaults', function (t) {
-  var results = lib.randomInts()
+  var results = lib.intsSync()
 
   t.equal(results.length, 10, 'should get 10 results')
   t.true(results.every(function (num) {
@@ -102,7 +101,7 @@ test('sync: can generate ints with the defaults', function (t) {
 })
 
 test('can generate random float', function (t) {
-  lib.randomFloat(function (err, result) {
+  lib.float(function (err, result) {
     if (err) {
       return t.fail(err)
     }
@@ -115,7 +114,7 @@ test('can generate random float', function (t) {
 })
 
 test('sync: can generate random float', function (t) {
-  var result = lib.randomFloat()
+  var result = lib.floatSync()
 
   t.ok(result >= 0, 'should greater than 0')
   t.ok(result < 1, 'should be less than 1')
@@ -128,7 +127,7 @@ test('can generate random floats', function (t) {
     num: 1000
   }
 
-  lib.randomFloats(opts, function (err, results) {
+  lib.floats(opts, function (err, results) {
     if (err) {
       return t.fail(err)
     }
@@ -147,7 +146,7 @@ test('sync: can generate random floats', function (t) {
     num: 1000
   }
 
-  var results = lib.randomFloats(opts)
+  var results = lib.floatsSync(opts)
 
   t.ok(Array.isArray(results), 'should get an array of results')
   t.equal(results.length, 1000, 'should get 1000 results')
@@ -165,7 +164,7 @@ test('can generate random unique ints', function (t) {
     unique: true
   }
 
-  lib.randomInts(opts, function (err, results) {
+  lib.ints(opts, function (err, results) {
     if (err) {
       return t.fail(err)
     }
@@ -188,10 +187,10 @@ test('can generate random unique ints', function (t) {
 })
 
 test('error when asking for too many unique ints', function (t) {
-  lib.randomInts({unique: true, min: 100, max: 199, num: 100}, function (err) {
+  lib.ints({unique: true, min: 100, max: 199, num: 100}, function (err) {
     t.ok(err, 'should error')
 
-    lib.randomInts({unique: true, min: 0, max: 10, num: 20}, function (err) {
+    lib.ints({unique: true, min: 0, max: 10, num: 20}, function (err) {
       t.ok(err, 'should error')
       t.end()
     })
@@ -207,7 +206,7 @@ test('sync: not allowed to generate random unique ints', function (t) {
   }
 
   t.throws(function () {
-    lib.randomInts(opts)
+    lib.intsSync(opts)
   }, 'should throw when uniques are requested')
 
   t.end()
@@ -219,7 +218,7 @@ test('can generate random unique floats', function (t) {
     unique: true
   }
 
-  lib.randomFloats(opts, function (err, results) {
+  lib.floats(opts, function (err, results) {
     if (err) {
       return t.fail(err)
     }
@@ -248,7 +247,7 @@ test('sync: not allowed to generate random unique floats', function (t) {
   }
 
   t.throws(function () {
-    lib.randomFloats(opts)
+    lib.floatsSync(opts)
   }, 'should throw when uniques are requested')
 
   t.end()
@@ -260,7 +259,7 @@ test('promisified function, full', function (t) {
     max: 10
   }
 
-  promisified.randomInt(opts).then(function (result) {
+  lib.int(opts).then(function (result) {
     t.ok(result, 'should get a result')
     t.ok(typeof result === 'number', 'should be a number')
     t.false(isNaN(result), 'should not be NaN')
@@ -273,7 +272,7 @@ test('promisified function, full', function (t) {
 })
 
 test('promise: defaults', function (t) {
-  promisified.randomInt().then(function (result) {
+  lib.int().then(function (result) {
     t.ok(result, 'should get a result')
     t.ok(typeof result === 'number', 'should be a number')
     t.false(isNaN(result), 'should not be NaN')
@@ -283,30 +282,4 @@ test('promise: defaults', function (t) {
   }).catch(function (err) {
     t.fail(err)
   })
-})
-
-test('expected promisified methods', function (t) {
-  var methods = ['randomInt', 'randomInts', 'randomFloat', 'randomFloats']
-
-  methods.forEach(function (method) {
-    t.ok(typeof promisified[method] === 'function', 'has method ' + method)
-  })
-
-  t.end()
-})
-
-test('can provide own promise implementation', function (t) {
-  t.plan(2)
-
-  var withTestPromise = lib.promise(TestPromise)
-
-  withTestPromise.randomInt().then(function (result) {
-    t.ok(typeof result === 'number', 'should be a number')
-  })
-
-  function TestPromise (fn) {
-    t.pass('used test promise')
-
-    return new Promise(fn)
-  }
 })
