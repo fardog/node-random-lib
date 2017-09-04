@@ -33,14 +33,14 @@ rand.ints(opts, function(err, results) {
   console.log(results) // [ 1, 1, 8, 9, 1, 4, 1, 6, 3, 8 ]
 })
 
-// or synchronously
-var results = rand.ints(opts)
-console.log(results) // [ 2, 1, 3, 8, 9, 7, 2, 4, 4, 7 ]
-
 // or, with promises
 rand.ints(opts).then(function(results) {
   console.log(results) // [ 2, 8, 4, 5, 2, 1, 7, 7, 8, 9 ]
 })
+
+// or synchronously
+var results = rand.intsSync(opts)
+console.log(results) // [ 2, 1, 3, 8, 9, 7, 2, 4, 4, 7 ]
 ```
 
 Options are accepted, but are different if you're asking for floats or integers.
@@ -78,19 +78,19 @@ rand.floats(options, function(err, results) {
 When calling any function, omitting a callback will cause the function to
 return a Promise.
 
-* `ints([options], [callback (err, results)]) => number[]`  
+* `ints([options], [callback (err, results)]): number[]`  
   Get an array of random integers.
-* `int([options], [callback (err, result)]) => number`  
+* `int([options], [callback (err, result)]): number`  
   Convenience function to get a single random integer.
-* `floats([options], [callback (err, results)]) => number[]`  
+* `floats([options], [callback (err, results)]): number[]`  
   Get an array of random floats between 0 and 1.
-* `float([options], [callback (err, results)]) => number`  
+* `float([options], [callback (err, results)]): number`  
   Convenience function to get a single random float between 0 and 1.
 
 #### Synchronous Methods
 
-Synchronous methods take the same options as their async counterparts. The
-`unique` option is not supported while synchronous.
+Synchronous methods take the same options as their async counterparts, except
+for the `unique` option which is not supported while synchronous.
 
 * `intsSync([options]): number[]`
 * `intSync([options]): number`
