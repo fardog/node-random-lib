@@ -1,4 +1,4 @@
-// Type definitions for random-lib 2.1.0
+// Type definitions for random-lib
 // Project: random-lib
 // Definitions by: Nathan Wittstock <fardog.io>
 
