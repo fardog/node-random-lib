@@ -101,7 +101,7 @@ function int (opts, ready) {
 }
 
 function floats (opts, ready) {
-  numItemsFromAsyncFn(float, opts, ready)
+  applyN(float, opts, ready)
 }
 
 function ints (opts, ready) {
@@ -109,7 +109,7 @@ function ints (opts, ready) {
     return ready(new Error('Not enough ints between min and max to be unique.'))
   }
 
-  numItemsFromAsyncFn(rejectionSampledInt, opts, ready)
+  applyN(rejectionSampledInt, opts, ready)
 }
 
 function floatSync () {
@@ -121,11 +121,11 @@ function intSync (opts) {
 }
 
 function floatsSync (opts) {
-  return arrayItemsFromFn(opts.num, floatSync, opts)
+  return applyNSync(floatSync, opts.num, opts)
 }
 
 function intsSync (opts) {
-  return arrayItemsFromFn(opts.num, rejectionSampledInt.sync, opts)
+  return applyNSync(rejectionSampledInt.sync, opts.num, opts)
 }
 
 /**
@@ -155,18 +155,17 @@ function floatFromBuffer (buf) {
 }
 
 /**
- * Create an array of items, whose contents are the result of calling function
- *   fn once for each item in the array.
+ * Apply a function a number of times, returning an array of the results.
  *
- * @param {Number} num the size of the array to generate
  * @param {Function} fn the function to call on each
+ * @param {Number} num the size of the array to generate
  * @param {*} args... a list of args to pass to the function fn
  * @returns {Array} the filled array
  */
-function arrayItemsFromFn () {
+function applyNSync () {
   var args = Array.prototype.slice.call(arguments)
-  var num = args.shift()
   var fn = args.shift()
+  var num = args.shift()
 
   var arr = []
 
@@ -179,15 +178,19 @@ function arrayItemsFromFn () {
 
 /**
  * Creates an array of items, whose contents are the result of calling
- *   asynchronous function fn once for each item in the array. The function is
- *   called in series, until the array is filled.
+ * asynchronous function fn once for each item in the array. The function is
+ * called in series, until the array is filled.
  *
- * @param {Function} fn the function to be called
+ * @param {Function} fn the function to be called with ({Objct} opts, ready)
+ *   where `ready` must be called with (err, value)
  * @param {Object} opts the options hash that random-lib expects
  * @param {Function} ready the function to be called with (err, {Array} values)
  */
-function numItemsFromAsyncFn (fn, opts, ready) {
-  var values = []
+function applyN (fn, opts, ready) {
+  var num = opts.num || 0
+  var unique = opts.unique
+
+  var arr = []
 
   fn(opts, onValue)
 
@@ -196,12 +199,12 @@ function numItemsFromAsyncFn (fn, opts, ready) {
       return ready(err)
     }
 
-    if (!opts.unique || values.indexOf(value) === -1) {
-      values.push(value)
+    if (!unique || arr.indexOf(value) === -1) {
+      arr.push(value)
     }
 
-    if (values.length >= opts.num) {
-      return ready(null, values)
+    if (arr.length >= num) {
+      return ready(null, arr)
     }
 
     process.nextTick(function () {
