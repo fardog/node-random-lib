@@ -253,6 +253,22 @@ test('sync: not allowed to generate random unique floats', function (t) {
   t.end()
 })
 
+test('cannot set min above max', function (t) {
+  t.plan(1)
+
+  lib.int({min: 10, max: 0})
+    .then(function () { t.fail('should not resolve') })
+    .catch(function () { t.pass('should reject') })
+})
+
+test('sync: cannot set min above max', function (t) {
+  t.plan(1)
+
+  t.throws(function () {
+    lib.intSync({min: 10, max: 0})
+  })
+})
+
 test('promisified function, full', function (t) {
   var opts = {
     min: 3,

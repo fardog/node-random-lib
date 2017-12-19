@@ -27,6 +27,10 @@ var DEFAULT_OPTS = {
 function _assignDefaults (_opts, sync) {
   var opts = Object.assign({}, DEFAULT_OPTS, _opts)
 
+  if (opts.min > opts.max) {
+    throw new Error('min cannot be less than max')
+  }
+
   if (sync && opts.unique) {
     throw new Error('cannot ask for unique values when async')
   }
