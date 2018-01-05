@@ -29,20 +29,18 @@ var opts = {
 }
 
 // get 10 random integers, between 1 and 10
-rand.randomInts(opts, function(err, results) {
+rand.ints(opts, function(err, results) {
   console.log(results) // [ 1, 1, 8, 9, 1, 4, 1, 6, 3, 8 ]
 })
 
-// or synchronously
-var results = rand.randomInts(opts)
-console.log(results) // [ 2, 1, 3, 8, 9, 7, 2, 4, 4, 7 ]
-
 // or, with promises
-var promisified = rand.promise()
-
-promisified.randomInts(opts).then(function(results) {
+rand.ints(opts).then(function(results) {
   console.log(results) // [ 2, 8, 4, 5, 2, 1, 7, 7, 8, 9 ]
 })
+
+// or synchronously
+var results = rand.intsSync(opts)
+console.log(results) // [ 2, 1, 3, 8, 9, 7, 2, 4, 4, 7 ]
 ```
 
 Options are accepted, but are different if you're asking for floats or integers.
@@ -58,10 +56,10 @@ and nothing is required.
 var options = {
   num: 10,  // number of ints to receive
   min: 0,  // minimum bound (inclusive)
-  max: Math.pow(2, 53) - 1,  // maximum bound (exclusive),
+  max: Number.MAX_SAFE_INT,  // maximum bound (exclusive),
   unique: false  // receive only unique ints; only supported when async
 }
-rand.randomInts(options, function(err, results) {
+rand.ints(options, function(err, results) {
   console.log(results)
 })
 
@@ -70,7 +68,7 @@ var options = {
   num: 10,  // number of floats to receive
   unique: false  // receive only unique floats; only supported when async
 }
-rand.randomFloats(options, function(err, results) {
+rand.floats(options, function(err, results) {
   console.log(results)
 })
 ```
@@ -78,46 +76,30 @@ rand.randomFloats(options, function(err, results) {
 ### API
 
 When calling any function, omitting a callback will cause the function to
-return results synchronously. Asking for unique results is not supported when
-synchronous.
+return a Promise.
 
-#### randomInts([options], [callback (err, results)]) -> Array{Number}
+* `ints([options], [callback (err, results)]): number[]`  
+  Get an array of random integers.
+* `int([options], [callback (err, result)]): number`  
+  Convenience function to get a single random integer.
+* `floats([options], [callback (err, results)]): number[]`  
+  Get an array of random floats between 0 and 1.
+* `float([options], [callback (err, results)]): number`  
+  Convenience function to get a single random float between 0 and 1.
 
-Get an array of random integers.
+#### Synchronous Methods
 
-#### randomInt([options], [callback (err, result)]) -> Number
+Synchronous methods take the same options as their async counterparts, except
+for the `unique` option which is not supported while synchronous.
 
-Convenience function to get a single random integer.
-
-#### randomFloats([options], [callback (err, results)]) -> Array{Number}
-
-Get an array of random floats between 0 and 1.
-
-#### randomFloat([options], [callback (err, results)]) -> Number
-
-Convenience function to get a single random float between 0 and 1.
-
-#### promise([Promise]) -> Object
-
-A promise API is supported for all functions:
-
-```javascript
-var rand = require('random-lib').promise()
-
-rand.randomInts().then(function (results) { console.log(results) })
-```
-
-When calling `promise()`, you may pass your own Promise constructor; if you do
-not [es6-promise][] will be used.
-
-```javascript
-var Promise = require('bluebird')
-var rand = require('random-lib').promise(Promise)  // now using bluebird
-```
+* `intsSync([options]): number[]`
+* `intSync([options]): number`
+* `floatsSync([options]): number[]`
+* `floatSync([options]): number`
 
 ## Notes
 
-- Using the synchronous interface calls [crypto.randomBytes][] synchronously;
+* Using the synchronous interface calls [crypto.randomBytes][] synchronously;
   please be sure to read the documentation for your Node.js version to
   understand the performance implications.
 
@@ -133,54 +115,13 @@ Feel free to send pull requests! I'm not picky, but would like the following:
 
 ## History
 
-- **v2.1.0**  
-Fix passing your own Promise constructor; this was broken in 2.0.x
-
-- **v2.0.0**  
-Rewrite: new API, adds synchronous functions. Tests on Node.js 4 and 5, removes
-testling.
-
-- **v1.1.3**  
-Officially supports node 0.11.
-
-- **v1.1.2**  
-Updates dependencies and adds dependency badge.
-
-- **v1.1.0**  
-Only return Promises when callbacks aren't used.
-
-- **v1.0.1**  
-Anonymous functions are now named, internal documentation updates, new tests,
-and updated dependencies.
-
-- **v1.0.0**  
-The API now supports Promises.
-
-- **v0.1.5**  
-Tests browser support. Adds [testling][] for automated tests.
-
-- **v0.1.4**  
-Avoids [releasing Zalgo][zalgo] on errors.
-
-- **v0.1.3**  
-Bug fixes.
-
-- **v0.1.2**  
-Adds `randomUniqueInts` and `randomUniqueFloats` for arrays with unique numbers.
-
-- **v0.1.1**  
-Remove peerDependencies.
-
-- **v0.1.0**  
-Initial release.
+See [CHANGELOG][] for details.
 
 ## License
 
 MIT. See [LICENSE][] for details.
 
-[crypto.randomBytes]: https://nodejs.org/dist/latest-v5.x/docs/api/crypto.html#crypto_crypto_randombytes_size_callback
-[zalgo]: http://blog.izs.me/post/59142742143/designing-apis-for-asynchrony
+[crypto.randomBytes]: https://nodejs.org/dist/latest-v6.x/docs/api/crypto.html#crypto_crypto_randombytes_size_callback
+[CHANGELOG]: ./CHANGELOG.md
 [LICENSE]: ./LICENSE
-[testling]: https://ci.testling.com/
 [Node.js]: http://nodejs.org
-[es6-promise]: https://www.npmjs.com/package/es6-promise
