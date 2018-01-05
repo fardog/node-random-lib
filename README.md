@@ -10,6 +10,13 @@ and bounded integers with ease.
 > **Warning:** I am not a cryptographer, or any sort of random number expert.
   An audit would be greatly appreciated.
 
+Version 3.0 of this module brings a new API and very different performance
+characteristics for integers; however it also removes bias which existed in
+older versions of this module.
+
+* [Version 3 Update Notes][v3]
+* [Version 2 Docs][v2]
+
 ## Installation
 
 To install the module for use in your projects:
@@ -125,3 +132,5 @@ MIT. See [LICENSE][] for details.
 [CHANGELOG]: ./CHANGELOG.md
 [LICENSE]: ./LICENSE
 [Node.js]: http://nodejs.org
+[v2]: https://github.com/fardog/node-random-lib/tree/v2.1.0#random-lib
+[v3]: https://github.com/fardog/node-random-lib/blob/master/CHANGELOG.md#300
