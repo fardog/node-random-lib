@@ -132,5 +132,5 @@ MIT. See [LICENSE][] for details.
 [CHANGELOG]: ./CHANGELOG.md
 [LICENSE]: ./LICENSE
 [Node.js]: http://nodejs.org
-[v2]: https://github.com/fardog/node-random-lib/tree/v2.1.0
+[v2]: https://github.com/fardog/node-random-lib/tree/v2.1.0#random-lib
 [v3]: https://github.com/fardog/node-random-lib/blob/master/CHANGELOG.md#300
